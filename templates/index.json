@@ -3,12 +3,18 @@
     "hero": {
       "type": "purelane-hero"
     },
+    "ingredients": {
+      "type": "purelane-ingredients"
+    },
     "shop": {
       "type": "purelane-shop",
       "settings": {
         "collection": "bestsellers",
         "products_to_show": 4
       }
+    },
+    "proof": {
+      "type": "purelane-proof"
     },
     "combos": {
       "type": "purelane-combos",
@@ -138,13 +144,19 @@
         "review_1",
         "review_2"
       ]
+    },
+    "newsletter": {
+      "type": "purelane-newsletter"
     }
   },
   "order": [
     "hero",
+    "ingredients",
     "shop",
+    "proof",
     "combos",
     "bundles",
-    "reviews_rail"
+    "reviews_rail",
+    "newsletter"
   ]
 }

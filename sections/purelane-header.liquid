@@ -1,4 +1,5 @@
 <header id="hdr">
+  <div id="nav-backdrop" class="nav-backdrop"></div>
   <div class="navpill glass">
     <a class="brand" href="{{ routes.root_url }}" aria-label="PureLane home">
       <span class="mark">
@@ -14,11 +15,16 @@
     </a>
     
     <nav class="nav" aria-label="Main" id="mobile-nav">
-      <a href="{{ routes.root_url }}" onclick="this.parentNode.classList.remove('open')">Home</a>
-      <a href="{{ routes.root_url }}#ingredients" onclick="this.parentNode.classList.remove('open')">Ingredients</a>
-      <a href="{{ routes.root_url }}#how-it-works" onclick="this.parentNode.classList.remove('open')">How it works</a>
-      <a href="{{ routes.root_url }}#shop" onclick="this.parentNode.classList.remove('open')">Shop</a>
-      <a href="{{ routes.root_url }}#bundles" onclick="this.parentNode.classList.remove('open')">Bundles</a>
+      <a href="javascript:void(0)" class="nav-close" id="purelane-mobile-menu-close" aria-label="Close Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width: 24px; height: 24px;"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </a>
+      <a href="{{ routes.root_url }}" class="nav-link">Home</a>
+      <a href="{{ routes.root_url }}#ingredients" class="nav-link">Ingredients</a>
+      <a href="{{ routes.root_url }}#how-it-works" class="nav-link">How it works</a>
+      <a href="{{ routes.root_url }}#shop" class="nav-link">Shop</a>
+      <a href="{{ routes.root_url }}#combos" class="nav-link">Combos</a>
+      <a href="{{ routes.root_url }}#bundles" class="nav-link">Bundles</a>
+      <a href="{{ routes.root_url }}#reviews" class="nav-link">Reviews</a>
     </nav>
     
     <div class="navtools">
@@ -39,7 +45,7 @@
         {%- endif -%}
       </a>
       
-      <a href="javascript:void(0)" class="ico burger" aria-label="Menu" onclick="document.getElementById('mobile-nav').classList.toggle('open')">
+      <a href="javascript:void(0)" class="ico burger" aria-label="Menu" id="purelane-mobile-menu-btn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 8h16M4 16h16"/></svg>
       </a>
     </div>
@@ -59,3 +65,37 @@
   ]
 }
 {% endschema %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var btn = document.getElementById('purelane-mobile-menu-btn');
+    var closeBtn = document.getElementById('purelane-mobile-menu-close');
+    var nav = document.getElementById('mobile-nav');
+    var backdrop = document.getElementById('nav-backdrop');
+    var links = document.querySelectorAll('.nav-link');
+    
+    function toggleMenu(e) {
+      if(e) e.preventDefault();
+      nav.classList.toggle('open');
+      if(backdrop) backdrop.classList.toggle('active');
+    }
+    
+    function closeMenu() {
+      nav.classList.remove('open');
+      if(backdrop) backdrop.classList.remove('active');
+    }
+
+    if (btn && nav) {
+      btn.addEventListener('click', toggleMenu);
+    }
+    if (closeBtn) {
+      closeBtn.addEventListener('click', toggleMenu);
+    }
+    if (backdrop) {
+      backdrop.addEventListener('click', closeMenu);
+    }
+    links.forEach(function(link) {
+      link.addEventListener('click', closeMenu);
+    });
+  });
+</script>
