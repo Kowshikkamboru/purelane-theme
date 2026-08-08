@@ -75,9 +75,17 @@
   {% assign variant_images = product.images | where: 'attached_to_variant?', true | map: 'src' %}
   <product-component view-event-payload="{{ product | standard_event_data: 'view', context: 'page' | escape }}">
     <div class="page-width">
-      <div class="product product--{{ section.settings.media_size }} product--{{ section.settings.media_position }} product--{{ section.settings.gallery_layout }} product--mobile-{{ section.settings.mobile_thumbnails }} grid grid--1-col {% if product.media.size > 0 %}grid--2-col-tablet{% else %}product--no-media{% endif %}">
+      <div class="product product--{{ section.settings.media_size }} product--{{ section.settings.media_position }} product--{{ section.settings.gallery_layout }} product--mobile-{{ section.settings.mobile_thumbnails }} grid grid--1-col grid--2-col-tablet">
         <div class="grid__item product__media-wrapper">
-          {% render 'product-media-gallery', variant_images: variant_images %}
+          {%- if product.media.size > 0 -%}
+            {% render 'product-media-gallery', variant_images: variant_images %}
+          {%- else -%}
+            <div class="product__media-list" style="margin-bottom: 2rem;">
+              <div class="product__media-item" style="width: 100%; max-width: 100%; text-align: center; background: linear-gradient(160deg,rgba(255,255,255,.60),rgba(236,230,247,.42)); border: 1px solid rgba(255,255,255,0.4); border-radius: 24px; padding: 40px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; aspect-ratio: 1/1;">
+                <img src="{{ 'purelane-placeholder.png' | asset_url }}" style="max-width: 100%; max-height: 100%; height: auto; object-fit: contain; filter: drop-shadow(0 14px 22px rgba(0,74,66,.15));" alt="{{ product.title | escape }} coming soon">
+              </div>
+            </div>
+          {%- endif -%}
         </div>
         <div class="product__info-wrapper grid__item{% if settings.page_width > 1400 and section.settings.media_size == "small" %} product__info-wrapper--extra-padding{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
           <section

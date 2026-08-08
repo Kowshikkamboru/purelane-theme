@@ -13,14 +13,12 @@
       </span>
     </a>
     
-    <nav class="nav" aria-label="Main">
-      {%- for link in section.settings.menu.links -%}
-        <a href="{{ link.url }}">{{ link.title }}</a>
-      {%- else -%}
-        <a href="/">Home</a>
-        <a href="/collections/all">Shop</a>
-        <a href="/pages/contact">Contact</a>
-      {%- endfor -%}
+    <nav class="nav" aria-label="Main" id="mobile-nav">
+      <a href="{{ routes.root_url }}" onclick="this.parentNode.classList.remove('open')">Home</a>
+      <a href="{{ routes.root_url }}#ingredients" onclick="this.parentNode.classList.remove('open')">Ingredients</a>
+      <a href="{{ routes.root_url }}#how-it-works" onclick="this.parentNode.classList.remove('open')">How it works</a>
+      <a href="{{ routes.root_url }}#shop" onclick="this.parentNode.classList.remove('open')">Shop</a>
+      <a href="{{ routes.root_url }}#bundles" onclick="this.parentNode.classList.remove('open')">Bundles</a>
     </nav>
     
     <div class="navtools">
@@ -41,9 +39,9 @@
         {%- endif -%}
       </a>
       
-      <button class="ico burger" aria-label="Menu">
+      <a href="javascript:void(0)" class="ico burger" aria-label="Menu" onclick="document.getElementById('mobile-nav').classList.toggle('open')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 8h16M4 16h16"/></svg>
-      </button>
+      </a>
     </div>
   </div>
 </header>

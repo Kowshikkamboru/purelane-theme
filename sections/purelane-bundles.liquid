@@ -1,5 +1,5 @@
 <!-- ================= BUNDLES ================= -->
-<section class="sec" id="bundles-{{ section.id }}" data-scene="3">
+<section class="sec" id="bundles" data-scene="3">
   <div class="wrap">
     <div class="glass sec-pad rv" style="margin-bottom:16px">
       <div class="panel-head" style="margin-bottom:0">
@@ -20,31 +20,31 @@
             {%- assign p5 = block.settings.item_5 -%}
             
             {%- if p1 != blank -%}
-              <span class="pimg" role="img" aria-label="{{ p1.title | escape }}" style="background-image: url('{{ p1.featured_image | image_url: width: 200 }}'); background-size: contain; background-repeat: no-repeat; background-position: center bottom;"></span>
+              <span class="pimg" role="img" aria-label="{{ p1.title | escape }}" style="aspect-ratio: {{ p1.featured_image.aspect_ratio | default: '0.64' }}; background-image: url('{{ p1.featured_image | image_url: width: 200 }}'); background-size: contain; background-repeat: no-repeat; background-position: center bottom;"></span>
             {%- elsif block.settings.product_1_img != blank -%}
               <span class="pimg {{ block.settings.product_1_img }}" role="img"></span>
             {%- endif -%}
             
             {%- if p2 != blank -%}
-              <span class="pimg" role="img" aria-label="{{ p2.title | escape }}" style="background-image: url('{{ p2.featured_image | image_url: width: 200 }}'); background-size: contain; background-repeat: no-repeat; background-position: center bottom;"></span>
+              <span class="pimg" role="img" aria-label="{{ p2.title | escape }}" style="aspect-ratio: {{ p2.featured_image.aspect_ratio | default: '0.64' }}; background-image: url('{{ p2.featured_image | image_url: width: 200 }}'); background-size: contain; background-repeat: no-repeat; background-position: center bottom;"></span>
             {%- elsif block.settings.product_2_img != blank -%}
               <span class="pimg {{ block.settings.product_2_img }}" role="img"></span>
             {%- endif -%}
             
             {%- if p3 != blank -%}
-              <span class="pimg" role="img" aria-label="{{ p3.title | escape }}" style="background-image: url('{{ p3.featured_image | image_url: width: 200 }}'); background-size: contain; background-repeat: no-repeat; background-position: center bottom;"></span>
+              <span class="pimg" role="img" aria-label="{{ p3.title | escape }}" style="aspect-ratio: {{ p3.featured_image.aspect_ratio | default: '0.64' }}; background-image: url('{{ p3.featured_image | image_url: width: 200 }}'); background-size: contain; background-repeat: no-repeat; background-position: center bottom;"></span>
             {%- elsif block.settings.product_3_img != blank -%}
               <span class="pimg {{ block.settings.product_3_img }}" role="img"></span>
             {%- endif -%}
             
             {%- if p4 != blank -%}
-              <span class="pimg" role="img" aria-label="{{ p4.title | escape }}" style="background-image: url('{{ p4.featured_image | image_url: width: 200 }}'); background-size: contain; background-repeat: no-repeat; background-position: center bottom;"></span>
+              <span class="pimg" role="img" aria-label="{{ p4.title | escape }}" style="aspect-ratio: {{ p4.featured_image.aspect_ratio | default: '0.64' }}; background-image: url('{{ p4.featured_image | image_url: width: 200 }}'); background-size: contain; background-repeat: no-repeat; background-position: center bottom;"></span>
             {%- elsif block.settings.product_4_img != blank -%}
               <span class="pimg {{ block.settings.product_4_img }}" role="img"></span>
             {%- endif -%}
             
             {%- if p5 != blank -%}
-              <span class="pimg" role="img" aria-label="{{ p5.title | escape }}" style="background-image: url('{{ p5.featured_image | image_url: width: 200 }}'); background-size: contain; background-repeat: no-repeat; background-position: center bottom;"></span>
+              <span class="pimg" role="img" aria-label="{{ p5.title | escape }}" style="aspect-ratio: {{ p5.featured_image.aspect_ratio | default: '0.64' }}; background-image: url('{{ p5.featured_image | image_url: width: 200 }}'); background-size: contain; background-repeat: no-repeat; background-position: center bottom;"></span>
             {%- elsif block.settings.product_5_img != blank -%}
               <span class="pimg {{ block.settings.product_5_img }}" role="img"></span>
             {%- endif -%}

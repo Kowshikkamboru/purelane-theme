@@ -11,33 +11,37 @@
         <p style="max-width:30ch">{{ section.settings.text }}</p>
       </div>
       
-      {%- for block in section.blocks -%}
-        <div class="fcol" {{ block.shopify_attributes }}>
-          <h5>{{ block.settings.heading | default: block.settings.menu.title }}</h5>
-          {%- if block.settings.menu != blank -%}
-            {%- for link in block.settings.menu.links -%}
-              <a href="{{ link.url }}">{{ link.title }}</a>
-            {%- endfor -%}
-          {%- else -%}
-            <a href="/collections/all">Shop all</a>
-            <a href="/pages/contact">Contact us</a>
-          {%- endif -%}
-        </div>
-      {%- endfor -%}
+      <div class="fcol">
+        <h5>SHOP</h5>
+        <a href="{{ routes.root_url }}#shop">Bestsellers</a>
+        <a href="/collections/kitchen">Kitchen</a>
+        <a href="/collections/laundry">Laundry</a>
+        <a href="/collections/home">Home</a>
+        <a href="/collections/skin">Skin</a>
+        <a href="{{ routes.root_url }}#bundles">Starter kits</a>
+      </div>
+      <div class="fcol">
+        <h5>ABOUT</h5>
+        <a href="{{ routes.root_url }}#how-it-works">How it works</a>
+        <a href="/pages/sustainability">Sustainability</a>
+        <a href="/pages/faqs">FAQs</a>
+        <a href="{{ routes.root_url }}#reviews">Reviews</a>
+      </div>
       
       <div class="fcol">
-        <h5>Get in touch</h5>
-        <a href="mailto:{{ shop.email }}">{{ shop.email }}</a>
-        <a href="tel:{{ shop.phone }}">{{ shop.phone }}</a>
-        <p style="font-size:12px;color:rgba(236,230,247,.5)">PureLane</p>
+        <h5>GET IN TOUCH</h5>
+        <a href="mailto:hello@purelane.com">hello@purelane.com</a>
+        <a href="tel:+919930123234">+91 9930 123 234</a>
+        <p style="font-size:12px;color:rgba(236,230,247,.5)">Purelane Eco Products Pvt Ltd</p>
       </div>
     </div>
     <div class="fbot">
-      <span>&copy; {{ 'now' | date: "%Y" }} PureLane</span>
+      <span>&copy; {{ 'now' | date: "%Y" }} Purelane Eco Products Private Limited</span>
       <span>
-        {%- for link in linklists.footer.links -%}
-          <a href="{{ link.url }}">{{ link.title }}</a>{% unless forloop.last %} &middot; {% endunless %}
-        {%- endfor -%}
+        <a href="/policies/privacy-policy">Privacy</a> &middot;
+        <a href="/policies/terms-of-service">Terms</a> &middot;
+        <a href="/policies/refund-policy">Refunds</a> &middot;
+        <a href="/pages/contact">Contact</a>
       </span>
     </div>
   </div>

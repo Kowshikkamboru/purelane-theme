@@ -1,5 +1,5 @@
 <!-- ================= CUSTOMER REVIEWS (auto marquee) ================= -->
-<section class="sec revband" id="reviews-{{ section.id }}" data-scene="1">
+<section class="sec revband" id="reviews" data-scene="1">
   <div class="wrap">
     <div class="revhead rv">
       <span class="kicker">{{ section.settings.kicker }}</span>
@@ -11,33 +11,23 @@
     </div>
   </div>
   <div class="revrail rv" aria-label="Customer reviews">
-    <div class="revtrack">
-      {%- for block in section.blocks -%}
-        <article class="glass-2 rcard" {{ block.shopify_attributes }}>
-          <div class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-          <h5>{{ block.settings.title }}</h5>
-          <p>{{ block.settings.text }}</p>
-          <div class="who">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>
-            <b>{{ block.settings.author }}</b>
-            {%- assign linked_product = block.settings.product -%}
-            <span>&middot; {% if linked_product != blank %}{{ linked_product.title }}{% else %}{{ block.settings.product_text }}{% endif %}</span>
-          </div>
-        </article>
-      {%- endfor -%}
-      {%- comment -%}Duplicate for seamless loop if needed, or CSS handles it. The original HTML duplicated them.{%- endcomment -%}
-      {%- for block in section.blocks -%}
-        <article class="glass-2 rcard" aria-hidden="true">
-          <div class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-          <h5>{{ block.settings.title }}</h5>
-          <p>{{ block.settings.text }}</p>
-          <div class="who">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>
-            <b>{{ block.settings.author }}</b>
-            {%- assign linked_product = block.settings.product -%}
-            <span>&middot; {% if linked_product != blank %}{{ linked_product.title }}{% else %}{{ block.settings.product_text }}{% endif %}</span>
-          </div>
-        </article>
+    <div class="revtrack" style="gap: 0;">
+      {%- for i in (1..4) -%}
+        <div class="rev-set" style="display: flex; gap: 12px; padding-right: 12px;" {% if forloop.index > 1 %}aria-hidden="true"{% endif %}>
+          {%- for block in section.blocks -%}
+            <article class="rcard" style="background: transparent; border: none; box-shadow: none;" {% if forloop.parentloop.index == 1 %}{{ block.shopify_attributes }}{% endif %}>
+              <div class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              <h5>{{ block.settings.title }}</h5>
+              <p>{{ block.settings.text }}</p>
+              <div class="who">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>
+                <b>{{ block.settings.author }}</b>
+                {%- assign linked_product = block.settings.product -%}
+                <span>&middot; {% if linked_product != blank %}{{ linked_product.title }}{% else %}{{ block.settings.product_text }}{% endif %}</span>
+              </div>
+            </article>
+          {%- endfor -%}
+        </div>
       {%- endfor -%}
     </div>
   </div>

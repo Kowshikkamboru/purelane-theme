@@ -8,22 +8,30 @@
 <article class="glass card rv {{ custom_class }}">
   <div class="shot">
     {%- if product != blank -%}
-      {%- if product.metafields.custom.badge != blank -%}
-        <span class="pill">{{ product.metafields.custom.badge }}</span>
-      {%- endif -%}
-      
-      {%- if product.featured_image != blank -%}
-        {{ product.featured_image | image_url: width: 300 | image_tag: class: 'pimg', loading: 'lazy' }}
-      {%- else -%}
-        {{ 'product-1' | placeholder_svg_tag: 'pimg' }}
-      {%- endif -%}
+      <a href="{{ product.url }}" style="text-decoration:none; color:inherit; display:block;">
+        {%- if product.metafields.custom.badge != blank -%}
+          <span class="pill">{{ product.metafields.custom.badge }}</span>
+        {%- endif -%}
+        
+        {%- if product.featured_image != blank -%}
+          {{ product.featured_image | image_url: width: 300 | image_tag: class: 'pimg', loading: 'lazy' }}
+        {%- else -%}
+          <img src="{{ 'purelane-placeholder.png' | asset_url }}" class="pimg" alt="Product coming soon" loading="lazy">
+        {%- endif -%}
+      </a>
     {%- else -%}
       <span class="pill">Best seller</span>
-      {{ fallback_image | default: 'product-1' | placeholder_svg_tag: 'pimg' }}
+      <img src="{{ 'purelane-placeholder.png' | asset_url }}" class="pimg" alt="Placeholder" loading="lazy">
     {%- endif -%}
   </div>
   
-  <h4>{% if product != blank %}{{ product.title }}{% else %}{{ fallback_title | default: 'Tap cleaner & limescale remover' }}{% endif %}</h4>
+  <h4>
+    {% if product != blank %}
+      <a href="{{ product.url }}" style="text-decoration:none; color:inherit;">{{ product.title }}</a>
+    {% else %}
+      {{ fallback_title | default: 'Tap cleaner & limescale remover' }}
+    {% endif %}
+  </h4>
   
   <div class="rate">
     <b>★ {{ product.metafields.reviews.rating.value | default: '4.8' }}</b> · {{ product.metafields.reviews.rating_count | default: '237' }} reviews

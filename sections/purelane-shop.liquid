@@ -1,5 +1,5 @@
 <!-- ================= SHOP ================= -->
-<section class="sec" id="shop-{{ section.id }}" data-scene="3">
+<section class="sec" id="shop" data-scene="3">
   <div class="wrap">
     <div class="panel-head rv">
       <span class="kicker">{{ section.settings.kicker }}</span>
@@ -36,6 +36,11 @@
         {%- endfor -%}
       {%- endif -%}
     </div>
+    {%- if shop_collection != blank -%}
+      <div style="text-align: center; margin-top: 40px;" class="rv rv-d3">
+        <a href="/collections/all" class="btn btn-primary" style="padding: 14px 32px; font-size: 14px; text-decoration: none;">View all products</a>
+      </div>
+    {%- endif -%}
   </div>
 </section>
 

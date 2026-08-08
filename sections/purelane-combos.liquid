@@ -1,5 +1,5 @@
 <!-- ================= BEST SELLING COMBOS ================= -->
-<section class="sec" id="combos-{{ section.id }}" data-scene="3">
+<section class="sec" id="combos" data-scene="3">
   <div class="wrap">
     <div class="panel-head rv">
       <span class="kicker">{{ section.settings.kicker }}</span>
@@ -25,7 +25,7 @@
               
               {%- if p1 != blank -%}
                 <span class="it">
-                  <span class="pimg" role="img" aria-label="{{ p1.title | escape }}" style="background-image: url('{{ p1.featured_image | image_url: width: 200 }}'); background-size: contain; background-repeat: no-repeat; background-position: center bottom;"></span>
+                  <span class="pimg" role="img" aria-label="{{ p1.title | escape }}" style="aspect-ratio: {{ p1.featured_image.aspect_ratio | default: '0.64' }}; background-image: url('{{ p1.featured_image | image_url: width: 200 }}'); background-size: contain; background-repeat: no-repeat; background-position: center bottom;"></span>
                   <span>{{ block.settings.item_1_label }}</span>
                 </span>
               {%- elsif block.settings.product_1_img != blank -%}
@@ -39,7 +39,7 @@
               {%- if p2 != blank -%}
                 <span class="plus" aria-hidden="true">+</span>
                 <span class="it">
-                  <span class="pimg" role="img" aria-label="{{ p2.title | escape }}" style="background-image: url('{{ p2.featured_image | image_url: width: 200 }}'); background-size: contain; background-repeat: no-repeat; background-position: center bottom;"></span>
+                  <span class="pimg" role="img" aria-label="{{ p2.title | escape }}" style="aspect-ratio: {{ p2.featured_image.aspect_ratio | default: '0.64' }}; background-image: url('{{ p2.featured_image | image_url: width: 200 }}'); background-size: contain; background-repeat: no-repeat; background-position: center bottom;"></span>
                   <span>{{ block.settings.item_2_label }}</span>
                 </span>
               {%- elsif block.settings.product_2_img != blank -%}
@@ -53,7 +53,7 @@
               {%- if p3 != blank -%}
                 <span class="plus" aria-hidden="true">+</span>
                 <span class="it">
-                  <span class="pimg" role="img" aria-label="{{ p3.title | escape }}" style="background-image: url('{{ p3.featured_image | image_url: width: 200 }}'); background-size: contain; background-repeat: no-repeat; background-position: center bottom;"></span>
+                  <span class="pimg" role="img" aria-label="{{ p3.title | escape }}" style="aspect-ratio: {{ p3.featured_image.aspect_ratio | default: '0.64' }}; background-image: url('{{ p3.featured_image | image_url: width: 200 }}'); background-size: contain; background-repeat: no-repeat; background-position: center bottom;"></span>
                   <span>{{ block.settings.item_3_label }}</span>
                 </span>
               {%- elsif block.settings.product_3_img != blank -%}

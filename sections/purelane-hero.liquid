@@ -81,13 +81,13 @@
             {%- assign main_product = block.settings.product_main -%}
 
             {%- if p1 != blank -%}
-              <span class="hp a d1" role="img" aria-label="{{ p1.title | escape }}" style="background-image: url('{{ p1.featured_image | image_url: width: 600 }}'); background-size: contain; background-repeat: no-repeat; background-position: center bottom;"></span>
+              <span class="hp a d1" role="img" aria-label="{{ p1.title | escape }}" style="aspect-ratio: {{ p1.featured_image.aspect_ratio | default: '0.64' }}; background-image: url('{{ p1.featured_image | image_url: width: 600 }}'); background-size: contain; background-repeat: no-repeat; background-position: center bottom;"></span>
             {%- endif -%}
             {%- if p2 != blank -%}
-              <span class="hp b d2" role="img" aria-label="{{ p2.title | escape }}" style="background-image: url('{{ p2.featured_image | image_url: width: 600 }}'); background-size: contain; background-repeat: no-repeat; background-position: center bottom;"></span>
+              <span class="hp b d2" role="img" aria-label="{{ p2.title | escape }}" style="aspect-ratio: {{ p2.featured_image.aspect_ratio | default: '0.64' }}; background-image: url('{{ p2.featured_image | image_url: width: 600 }}'); background-size: contain; background-repeat: no-repeat; background-position: center bottom;"></span>
             {%- endif -%}
             {%- if p3 != blank -%}
-              <span class="hp c d3" role="img" aria-label="{{ p3.title | escape }}" style="background-image: url('{{ p3.featured_image | image_url: width: 600 }}'); background-size: contain; background-repeat: no-repeat; background-position: center bottom;"></span>
+              <span class="hp c d3" role="img" aria-label="{{ p3.title | escape }}" style="aspect-ratio: {{ p3.featured_image.aspect_ratio | default: '0.64' }}; background-image: url('{{ p3.featured_image | image_url: width: 600 }}'); background-size: contain; background-repeat: no-repeat; background-position: center bottom;"></span>
             {%- endif -%}
 
             <div class="glass-2 ptag">
