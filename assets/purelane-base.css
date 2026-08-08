@@ -795,8 +795,11 @@ footer{background:linear-gradient(180deg,rgba(255,255,255,.62),rgba(214,241,221,
 
 
 
+.mobile-sidebar, .nav-backdrop { display: none; }
+
 @media(max-width: 1023px) {
   .nav-backdrop {
+    display: block;
     position: fixed;
     top: 0;
     left: 0;
@@ -813,7 +816,7 @@ footer{background:linear-gradient(180deg,rgba(255,255,255,.62),rgba(214,241,221,
     opacity: 1;
     visibility: visible;
   }
-  .nav {
+  .mobile-sidebar {
     position: fixed;
     top: 0;
     right: -100%;
@@ -821,7 +824,7 @@ footer{background:linear-gradient(180deg,rgba(255,255,255,.62),rgba(214,241,221,
     width: 85%;
     max-width: 320px;
     background: #01423b;
-    padding: 30px 24px;
+    padding: 60px 24px 30px 24px;
     display: flex !important;
     flex-direction: column;
     z-index: 99999;
@@ -829,26 +832,33 @@ footer{background:linear-gradient(180deg,rgba(255,255,255,.62),rgba(214,241,221,
     transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     margin: 0;
   }
-  .nav.open {
+  .mobile-sidebar.open {
     right: 0;
   }
-  .nav-close {
-    align-self: flex-end;
-    margin-bottom: 30px;
+  .mobile-sidebar .nav-close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
     color: #fff;
     opacity: 0.8;
+    display: block;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: none;
   }
-  .nav-close:hover {
+  .mobile-sidebar .nav-close:hover {
     opacity: 1;
   }
-  .nav a {
+  .mobile-sidebar a {
     color: rgba(255,255,255,0.85);
     padding: 16px 0;
     font-size: 18px;
     border-bottom: 1px solid rgba(255,255,255,0.1);
     width: 100%;
+    text-decoration: none;
   }
-  .nav a:last-child {
+  .mobile-sidebar a:last-child {
     border-bottom: none;
   }
 }
@@ -866,3 +876,5 @@ body:not(.template-index) #MainContent { padding-top: 140px; }
 .product__media img, .product__media model-viewer, .product__media iframe, .product__media video { max-height: 65vh; object-fit: contain; width: 100%; border-radius: 20px; }
 .product__media-item { display: flex; align-items: center; justify-content: center; background: linear-gradient(160deg,rgba(255,255,255,.60),rgba(236,230,247,.42)); border: 1px solid rgba(255,255,255,0.4); border-radius: 24px; padding: 20px; box-sizing: border-box; }
 .product__media-list { gap: 10px; }
+
+

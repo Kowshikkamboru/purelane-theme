@@ -1,5 +1,18 @@
+<!-- ================= TICKER ================= -->
+<div class="ticker" aria-hidden="true">
+  <div class="track">
+    <span>Free shipping <b>on every bundle across India</b></span>
+    <span>100% plant-based <b>and non-toxic</b></span>
+    <span>Loved by <b>30,000+ happy homes</b></span>
+    <span>Buy 3 <b>at flat ₹499</b></span>
+    <span>Free shipping <b>on every bundle across India</b></span>
+    <span>100% plant-based <b>and non-toxic</b></span>
+    <span>Loved by <b>30,000+ happy homes</b></span>
+    <span>Buy 3 <b>at flat ₹499</b></span>
+  </div>
+</div>
+
 <header id="hdr">
-  <div id="nav-backdrop" class="nav-backdrop"></div>
   <div class="navpill glass">
     <a class="brand" href="{{ routes.root_url }}" aria-label="PureLane home">
       <span class="mark">
@@ -14,17 +27,14 @@
       </span>
     </a>
     
-    <nav class="nav" aria-label="Main" id="mobile-nav">
-      <a href="javascript:void(0)" class="nav-close" id="purelane-mobile-menu-close" aria-label="Close Menu">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width: 24px; height: 24px;"><path d="M18 6L6 18M6 6l12 12"/></svg>
-      </a>
-      <a href="{{ routes.root_url }}" class="nav-link">Home</a>
-      <a href="{{ routes.root_url }}#ingredients" class="nav-link">Ingredients</a>
-      <a href="{{ routes.root_url }}#how-it-works" class="nav-link">How it works</a>
-      <a href="{{ routes.root_url }}#shop" class="nav-link">Shop</a>
-      <a href="{{ routes.root_url }}#combos" class="nav-link">Combos</a>
-      <a href="{{ routes.root_url }}#bundles" class="nav-link">Bundles</a>
-      <a href="{{ routes.root_url }}#reviews" class="nav-link">Reviews</a>
+    <nav class="nav desktop-nav" aria-label="Main">
+      <a href="{{ routes.root_url }}">Home</a>
+      <a href="{{ routes.root_url }}#ingredients">Ingredients</a>
+      <a href="{{ routes.root_url }}#how-it-works">How it works</a>
+      <a href="{{ routes.root_url }}#shop">Shop</a>
+      <a href="{{ routes.root_url }}#combos">Combos</a>
+      <a href="{{ routes.root_url }}#bundles">Bundles</a>
+      <a href="{{ routes.root_url }}#reviews">Reviews</a>
     </nav>
     
     <div class="navtools">
@@ -50,6 +60,20 @@
       </a>
     </div>
   </div>
+
+  <div id="nav-backdrop" class="nav-backdrop"></div>
+  <nav class="mobile-sidebar" aria-label="Main" id="mobile-nav">
+    <a href="javascript:void(0)" class="nav-close" id="purelane-mobile-menu-close" aria-label="Close Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width: 24px; height: 24px;"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </a>
+    <a href="{{ routes.root_url }}" class="nav-link">Home</a>
+    <a href="{{ routes.root_url }}#ingredients" class="nav-link">Ingredients</a>
+    <a href="{{ routes.root_url }}#how-it-works" class="nav-link">How it works</a>
+    <a href="{{ routes.root_url }}#shop" class="nav-link">Shop</a>
+    <a href="{{ routes.root_url }}#combos" class="nav-link">Combos</a>
+    <a href="{{ routes.root_url }}#bundles" class="nav-link">Bundles</a>
+    <a href="{{ routes.root_url }}#reviews" class="nav-link">Reviews</a>
+  </nav>
 </header>
 
 {% schema %}
