@@ -1,5 +1,5 @@
 <!-- ================= SHOP ================= -->
-<section class="sec" id="shop" data-scene="3">
+<section class="sec" id="shop-{{ section.id }}" data-scene="3">
   <div class="wrap">
     <div class="panel-head rv">
       <span class="kicker">{{ section.settings.kicker }}</span>
@@ -14,50 +14,25 @@
       {%- assign shop_collection = collections[section.settings.collection] -%}
       {%- if shop_collection != blank -%}
         {%- for product in shop_collection.products limit: section.settings.products_to_show -%}
-          <article class="glass card rv">
-            <div class="shot">
-              {%- if product.metafields.custom.badge != blank -%}
-                <span class="pill">{{ product.metafields.custom.badge }}</span>
-              {%- endif -%}
-              {%- if product.featured_image != blank -%}
-                {{ product.featured_image | image_url: width: 300 | image_tag: class: 'pimg', loading: 'lazy' }}
-              {%- else -%}
-                <span class="pimg p-tap" role="img"></span> {%- comment -%}Fallback CSS image{%- endcomment -%}
-              {%- endif -%}
-            </div>
-            <h4>{{ product.title }}</h4>
-            <div class="rate">
-              <b>★ {{ product.metafields.reviews.rating.value | default: '4.8' }}</b> · {{ product.metafields.reviews.rating_count | default: '230' }} reviews
-            </div>
-            <div class="pr">
-              <strong>{{ product.price | money }}</strong>
-              {%- if product.compare_at_price > product.price -%}
-                <s>{{ product.compare_at_price | money }}</s>
-                {%- assign savings = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
-                <em>{{ savings }}% off</em>
-              {%- endif -%}
-            </div>
-            {%- form 'product', product -%}
-              <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
-              <button type="submit" class="btn btn-ghost btn-sm" {% unless product.available %}disabled{% endunless %}>
-                {% if product.available %}Add to cart{% else %}Sold out{% endif %}
-              </button>
-            {%- endform -%}
-          </article>
+          {%- assign mod = forloop.index0 | modulo: 4 -%}
+          {%- assign delay_class = '' -%}
+          {%- if mod == 1 -%}{%- assign delay_class = 'rv-d1' -%}
+          {%- elsif mod == 2 -%}{%- assign delay_class = 'rv-d2' -%}
+          {%- elsif mod == 3 -%}{%- assign delay_class = 'rv-d3' -%}
+          {%- endif -%}
+          {% render 'purelane-product-card', product: product, custom_class: delay_class %}
         {%- endfor -%}
       {%- else -%}
         {%- comment -%}Placeholder content{%- endcomment -%}
         {%- for i in (1..4) -%}
-          <article class="glass card rv">
-            <div class="shot">
-              <span class="pill">Best seller</span>
-              <span class="pimg p-kitchen" role="img"></span>
-            </div>
-            <h4>Kitchen cleaner, foaming</h4>
-            <div class="rate"><b>★ 4.8</b> · 254 reviews</div>
-            <div class="pr"><strong>₹200</strong><s>₹299</s><em>33% off</em></div>
-            <button class="btn btn-ghost btn-sm">Add to cart</button>
-          </article>
+          {%- assign mod = forloop.index0 | modulo: 4 -%}
+          {%- assign delay_class = '' -%}
+          {%- if mod == 1 -%}{%- assign delay_class = 'rv-d1' -%}
+          {%- elsif mod == 2 -%}{%- assign delay_class = 'rv-d2' -%}
+          {%- elsif mod == 3 -%}{%- assign delay_class = 'rv-d3' -%}
+          {%- endif -%}
+          {%- assign placeholder = 'product-' | append: i -%}
+          {% render 'purelane-product-card', product: null, fallback_image: placeholder, custom_class: delay_class %}
         {%- endfor -%}
       {%- endif -%}
     </div>

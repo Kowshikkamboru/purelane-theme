@@ -1,20 +1,48 @@
-<section class="hero" data-scene="1">
+<section class="hero" id="hero-{{ section.id }}" data-scene="1">
   <div class="hero-grid">
 
-    <div class="badges glass-2" aria-label="Product promises">
-      <div class="badge">
-        <span class="bi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"/><path d="M12 21C12 14.5 8.5 10 4 8.5 4 15 7.5 20 12 21Z"/></svg></span>
-        <span>Plant<br>powered</span>
-      </div>
-      <div class="badge">
-        <span class="bi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4.5 6v6.2c0 4.3 3.1 7.6 7.5 8.8 4.4-1.2 7.5-4.5 7.5-8.8V6L12 3Z"/><path d="m9 12 2.2 2.2L15.4 10"/></svg></span>
-        <span>Safe for<br>kids &amp; pets</span>
-      </div>
-      <div class="badge">
-        <span class="bi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.4"/><path d="M6.4 17.6 17.6 6.4"/></svg></span>
-        <span>Zero harsh<br>chemicals</span>
-      </div>
-    </div>
+    {%- if section.blocks.size > 0 -%}
+      {%- assign badge_blocks = section.blocks | where: 'type', 'badge' -%}
+      {%- if badge_blocks.size > 0 -%}
+        <div class="badges glass-2" aria-label="Product promises">
+          {%- for block in badge_blocks -%}
+            <div class="badge" {{ block.shopify_attributes }}>
+              <span class="bi">
+                {%- case block.settings.icon -%}
+                  {%- when 'leaf' -%}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"/><path d="M12 21C12 14.5 8.5 10 4 8.5 4 15 7.5 20 12 21Z"/></svg>
+                  {%- when 'shield' -%}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4.5 6v6.2c0 4.3 3.1 7.6 7.5 8.8 4.4-1.2 7.5-4.5 7.5-8.8V6L12 3Z"/><path d="m9 12 2.2 2.2L15.4 10"/></svg>
+                  {%- when 'no-chemicals' -%}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.4"/><path d="M6.4 17.6 17.6 6.4"/></svg>
+                  {%- else -%}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"/><path d="M12 21C12 14.5 8.5 10 4 8.5 4 15 7.5 20 12 21Z"/></svg>
+                {%- endcase -%}
+              </span>
+              <span>{{ block.settings.label }}</span>
+            </div>
+          {%- endfor -%}
+        </div>
+
+        <div class="badgestrip rv rv-d4">
+          {%- for block in badge_blocks -%}
+            <div class="glass-2" {{ block.shopify_attributes }}>
+              {%- case block.settings.icon -%}
+                {%- when 'leaf' -%}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"/><path d="M12 21C12 14.5 8.5 10 4 8.5 4 15 7.5 20 12 21Z"/></svg>
+                {%- when 'shield' -%}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4.5 6v6.2c0 4.3 3.1 7.6 7.5 8.8 4.4-1.2 7.5-4.5 7.5-8.8V6L12 3Z"/><path d="m9 12 2.2 2.2L15.4 10"/></svg>
+                {%- when 'no-chemicals' -%}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.4"/><path d="M6.4 17.6 17.6 6.4"/></svg>
+                {%- else -%}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"/><path d="M12 21C12 14.5 8.5 10 4 8.5 4 15 7.5 20 12 21Z"/></svg>
+              {%- endcase -%}
+              {{ block.settings.label_short | default: block.settings.label }}
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    {%- endif -%}
 
     <div class="hero-copy">
       <h1 class="d1 rv in">{{ section.settings.heading }}</h1>
@@ -35,57 +63,91 @@
           <a class="btn btn-ghost" href="{{ section.settings.button_link_2 }}">{{ section.settings.button_label_2 }}</a>
         {%- endif -%}
       </div>
-
-      <div class="badgestrip rv rv-d4">
-        <div class="glass-2">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"/><path d="M12 21C12 14.5 8.5 10 4 8.5 4 15 7.5 20 12 21Z"/></svg>
-          Plant powered
-        </div>
-        <div class="glass-2">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4.5 6v6.2c0 4.3 3.1 7.6 7.5 8.8 4.4-1.2 7.5-4.5 7.5-8.8V6L12 3Z"/><path d="m9 12 2.2 2.2L15.4 10"/></svg>
-          Kids &amp; pet safe
-        </div>
-        <div class="glass-2">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.4"/><path d="M6.4 17.6 17.6 6.4"/></svg>
-          Zero harsh chem
-        </div>
-      </div>
     </div>
 
-    <div class="hero-prod" id="heroProd">
-      <div class="hstage" id="hstage">
-        <div class="hslide hs1 on" data-n="1">
-          <span class="hp p-kbtl a d1" role="img" aria-label="Purelane foaming kitchen cleaner spray bottle"></span>
-          <div class="glass-2 ptag">
-            <span class="lbl">Single bottle</span>
-            <span class="val"><strong>&#8377;200</strong><s>&#8377;299</s></span>
-            <span class="cut">33% off</span>
+    <div class="hero-prod" id="heroProd-{{ section.id }}">
+      {%- assign slide_blocks = section.blocks | where: 'type', 'slide' -%}
+      <div class="hstage" id="hstage-{{ section.id }}">
+        {%- for block in slide_blocks -%}
+          {%- assign slide_count = 0 -%}
+          {%- if block.settings.item_1 != blank -%}{%- assign slide_count = slide_count | plus: 1 -%}{%- endif -%}
+          {%- if block.settings.item_2 != blank -%}{%- assign slide_count = slide_count | plus: 1 -%}{%- endif -%}
+          {%- if block.settings.item_3 != blank -%}{%- assign slide_count = slide_count | plus: 1 -%}{%- endif -%}
+          {%- if slide_count == 0 -%}{%- assign slide_count = 1 -%}{%- endif -%}
+          <div class="hslide hs{{ slide_count }} {% if forloop.first %}on{% endif %}" data-n="{{ forloop.index }}" {{ block.shopify_attributes }}>
+            {%- assign p1 = block.settings.item_1 -%}
+            {%- assign p2 = block.settings.item_2 -%}
+            {%- assign p3 = block.settings.item_3 -%}
+            {%- assign main_product = block.settings.product_main -%}
+
+            {%- if p1 != blank -%}
+              <span class="hp a d1" role="img" aria-label="{{ p1.title | escape }}" style="background-image: url('{{ p1.featured_image | image_url: width: 600 }}'); background-size: contain; background-repeat: no-repeat; background-position: center bottom;"></span>
+            {%- endif -%}
+            {%- if p2 != blank -%}
+              <span class="hp b d2" role="img" aria-label="{{ p2.title | escape }}" style="background-image: url('{{ p2.featured_image | image_url: width: 600 }}'); background-size: contain; background-repeat: no-repeat; background-position: center bottom;"></span>
+            {%- endif -%}
+            {%- if p3 != blank -%}
+              <span class="hp c d3" role="img" aria-label="{{ p3.title | escape }}" style="background-image: url('{{ p3.featured_image | image_url: width: 600 }}'); background-size: contain; background-repeat: no-repeat; background-position: center bottom;"></span>
+            {%- endif -%}
+
+            <div class="glass-2 ptag">
+              <span class="lbl">{{ block.settings.label }}</span>
+              <span class="val">
+                <strong>
+                  {%- if main_product != blank -%}
+                    {{ main_product.price | money }}
+                  {%- else -%}
+                    &#8377;200
+                  {%- endif -%}
+                </strong>
+                {%- if main_product != blank and main_product.compare_at_price > main_product.price -%}
+                  <s>{{ main_product.compare_at_price | money }}</s>
+                {%- endif -%}
+              </span>
+              {%- if block.settings.cut_text != blank -%}
+                <span class="cut">{{ block.settings.cut_text }}</span>
+              {%- endif -%}
+            </div>
           </div>
-        </div>
-        <div class="hslide hs2" data-n="2">
-          <span class="hp p-tbtl a d1" role="img" aria-label="Purelane tap cleaner and limescale remover spray bottle"></span>
-          <span class="hp p-kbtl b d2" role="img" aria-label="Purelane foaming kitchen cleaner spray bottle"></span>
-          <div class="glass-2 ptag">
-            <span class="lbl">Any 2 products</span>
-            <span class="val"><strong>&#8377;349</strong><s>&#8377;598</s></span>
-            <span class="cut">Save &#8377;249</span>
+        {%- else -%}
+          <!-- Fallback dummy data if no slide blocks -->
+          <div class="hslide hs1 on" data-n="1">
+            <span class="hp p-kbtl a d1" role="img" aria-label="Purelane foaming kitchen cleaner spray bottle"></span>
+            <div class="glass-2 ptag">
+              <span class="lbl">Single bottle</span>
+              <span class="val"><strong>&#8377;200</strong><s>&#8377;299</s></span>
+              <span class="cut">33% off</span>
+            </div>
           </div>
-        </div>
-        <div class="hslide hs3" data-n="3">
-          <span class="hp p-tbtl a d1" role="img" aria-label="Purelane tap cleaner and limescale remover spray bottle"></span>
-          <span class="hp p-mbtl b d2" role="img" aria-label="Purelane copper, bronze and brass cleaner pump bottle"></span>
-          <span class="hp p-kbtl c d3" role="img" aria-label="Purelane foaming kitchen cleaner spray bottle"></span>
-          <div class="glass-2 ptag">
-            <span class="lbl">Any 3 products</span>
-            <span class="val"><strong>&#8377;499</strong><s>&#8377;897</s></span>
-            <span class="cut">Save &#8377;398</span>
+          <div class="hslide hs2" data-n="2">
+            <span class="hp p-tbtl a d1" role="img" aria-label="Purelane tap cleaner"></span>
+            <span class="hp p-kbtl b d2" role="img" aria-label="Purelane kitchen cleaner"></span>
+            <div class="glass-2 ptag">
+              <span class="lbl">Any 2 products</span>
+              <span class="val"><strong>&#8377;349</strong><s>&#8377;598</s></span>
+              <span class="cut">Save &#8377;249</span>
+            </div>
           </div>
-        </div>
+          <div class="hslide hs3" data-n="3">
+            <span class="hp p-tbtl a d1" role="img" aria-label="Tap cleaner"></span>
+            <span class="hp p-mbtl b d2" role="img" aria-label="Copper cleaner"></span>
+            <span class="hp p-kbtl c d3" role="img" aria-label="Kitchen cleaner"></span>
+            <div class="glass-2 ptag">
+              <span class="lbl">Any 3 products</span>
+              <span class="val"><strong>&#8377;499</strong><s>&#8377;897</s></span>
+              <span class="cut">Save &#8377;398</span>
+            </div>
+          </div>
+        {%- endfor -%}
       </div>
-      <div class="hdots" id="hdots">
-        <button type="button" class="on" aria-label="Show 1 product"></button>
-        <button type="button" class="" aria-label="Show 2 products"></button>
-        <button type="button" class="" aria-label="Show 3 products"></button>
+      <div class="hdots" id="hdots-{{ section.id }}">
+        {%- for block in slide_blocks -%}
+          <button type="button" class="{% if forloop.first %}on{% endif %}" aria-label="Show slide {{ forloop.index }}"></button>
+        {%- else -%}
+          <button type="button" class="on" aria-label="Show 1 product"></button>
+          <button type="button" class="" aria-label="Show 2 products"></button>
+          <button type="button" class="" aria-label="Show 3 products"></button>
+        {%- endfor -%}
       </div>
     </div>
 
@@ -93,30 +155,56 @@
 </section>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const heroProd = document.getElementById('heroProd');
+  (function() {
+    var sectionId = {{ section.id | json }};
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var heroProd = document.getElementById('heroProd-' + sectionId);
     if (!heroProd) return;
-    
-    const hdots = heroProd.querySelectorAll('.hdots button');
-    const hslides = heroProd.querySelectorAll('.hslide');
-    
-    hdots.forEach((dot, index) => {
-      dot.addEventListener('click', () => {
-        hdots.forEach(d => d.classList.remove('on'));
-        hslides.forEach(s => s.classList.remove('on'));
-        
-        dot.classList.add('on');
-        hslides[index].classList.add('on');
-      });
+
+    var hstage = document.getElementById('hstage-' + sectionId);
+    var hdotsWrap = document.getElementById('hdots-' + sectionId);
+    if (!hstage || !hdotsWrap) return;
+
+    var hdots = [].slice.call(hdotsWrap.querySelectorAll('button'));
+    var hslides = [].slice.call(hstage.querySelectorAll('.hslide'));
+    if (hdots.length === 0 || hslides.length === 0) return;
+
+    var currentIndex = 0;
+    var timer = null;
+
+    function goTo(n) {
+      currentIndex = (n + hslides.length) % hslides.length;
+      hslides.forEach(function(s, i) { s.classList.toggle('on', i === currentIndex); });
+      hdots.forEach(function(d, i) { d.classList.toggle('on', i === currentIndex); });
+    }
+
+    function play() {
+      if (!timer && !reduce) {
+        timer = setInterval(function() { goTo(currentIndex + 1); }, 3800);
+      }
+    }
+
+    function stop() {
+      if (timer) { clearInterval(timer); timer = null; }
+    }
+
+    hdots.forEach(function(d, i) {
+      d.addEventListener('click', function() { stop(); goTo(i); play(); });
     });
-    
-    // Auto cycle
-    let currentIndex = 0;
-    setInterval(() => {
-      currentIndex = (currentIndex + 1) % hdots.length;
-      hdots[currentIndex].click();
-    }, 4000);
-  });
+
+    hstage.addEventListener('mouseenter', stop);
+    hstage.addEventListener('mouseleave', play);
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          if (e.isIntersecting) { play(); } else { stop(); }
+        });
+      }, { threshold: 0.2 }).observe(hstage);
+    } else {
+      play();
+    }
+  })();
 </script>
 
 {% schema %}
@@ -158,9 +246,83 @@
       "label": "Secondary Button Link"
     }
   ],
+  "blocks": [
+    {
+      "type": "badge",
+      "name": "Badge",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "no-chemicals", "label": "No chemicals" }
+          ],
+          "default": "leaf"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Plant<br>powered"
+        },
+        {
+          "type": "text",
+          "id": "label_short",
+          "label": "Short Label (mobile strip)",
+          "default": "Plant powered"
+        }
+      ]
+    },
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Slide Label",
+          "default": "Single bottle"
+        },
+        {
+          "type": "text",
+          "id": "cut_text",
+          "label": "Cut Text (e.g. 33% off)",
+          "default": "33% off"
+        },
+        {
+          "type": "product",
+          "id": "product_main",
+          "label": "Main Bundle Product (for price)"
+        },
+        {
+          "type": "product",
+          "id": "item_1",
+          "label": "Image 1 Product"
+        },
+        {
+          "type": "product",
+          "id": "item_2",
+          "label": "Image 2 Product (optional)"
+        },
+        {
+          "type": "product",
+          "id": "item_3",
+          "label": "Image 3 Product (optional)"
+        }
+      ]
+    }
+  ],
   "presets": [
     {
-      "name": "Purelane Hero"
+      "name": "Purelane Hero",
+      "blocks": [
+        { "type": "badge", "settings": { "icon": "leaf", "label": "Plant<br>powered", "label_short": "Plant powered" } },
+        { "type": "badge", "settings": { "icon": "shield", "label": "Safe for<br>kids &amp; pets", "label_short": "Kids & pet safe" } },
+        { "type": "badge", "settings": { "icon": "no-chemicals", "label": "Zero harsh<br>chemicals", "label_short": "Zero harsh chem" } }
+      ]
     }
   ]
 }

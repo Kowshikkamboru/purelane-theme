@@ -1,5 +1,5 @@
 <!-- ================= CUSTOMER REVIEWS (auto marquee) ================= -->
-<section class="sec revband" id="reviews" data-scene="1">
+<section class="sec revband" id="reviews-{{ section.id }}" data-scene="1">
   <div class="wrap">
     <div class="revhead rv">
       <span class="kicker">{{ section.settings.kicker }}</span>
@@ -20,7 +20,8 @@
           <div class="who">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>
             <b>{{ block.settings.author }}</b>
-            <span>&middot; {{ block.settings.product }}</span>
+            {%- assign linked_product = block.settings.product -%}
+            <span>&middot; {% if linked_product != blank %}{{ linked_product.title }}{% else %}{{ block.settings.product_text }}{% endif %}</span>
           </div>
         </article>
       {%- endfor -%}
@@ -33,7 +34,8 @@
           <div class="who">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>
             <b>{{ block.settings.author }}</b>
-            <span>&middot; {{ block.settings.product }}</span>
+            {%- assign linked_product = block.settings.product -%}
+            <span>&middot; {% if linked_product != blank %}{{ linked_product.title }}{% else %}{{ block.settings.product_text }}{% endif %}</span>
           </div>
         </article>
       {%- endfor -%}
@@ -94,9 +96,14 @@
           "default": "Anita"
         },
         {
-          "type": "text",
+          "type": "product",
           "id": "product",
-          "label": "Product Referenced",
+          "label": "Product Referenced"
+        },
+        {
+          "type": "text",
+          "id": "product_text",
+          "label": "Product Text Fallback",
           "default": "Laundry detergent"
         }
       ]

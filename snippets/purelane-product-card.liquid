@@ -1,0 +1,55 @@
+{%- comment -%}
+  Accepts:
+  - product: {Object} Product Liquid object
+  - custom_class: {String} Additional classes for the article element
+  - fallback_title: {String} Fallback title if product is empty
+  - fallback_image: {String} Fallback image placeholder index
+{%- endcomment -%}
+<article class="glass card rv {{ custom_class }}">
+  <div class="shot">
+    {%- if product != blank -%}
+      {%- if product.metafields.custom.badge != blank -%}
+        <span class="pill">{{ product.metafields.custom.badge }}</span>
+      {%- endif -%}
+      
+      {%- if product.featured_image != blank -%}
+        {{ product.featured_image | image_url: width: 300 | image_tag: class: 'pimg', loading: 'lazy' }}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'pimg' }}
+      {%- endif -%}
+    {%- else -%}
+      <span class="pill">Best seller</span>
+      {{ fallback_image | default: 'product-1' | placeholder_svg_tag: 'pimg' }}
+    {%- endif -%}
+  </div>
+  
+  <h4>{% if product != blank %}{{ product.title }}{% else %}{{ fallback_title | default: 'Tap cleaner & limescale remover' }}{% endif %}</h4>
+  
+  <div class="rate">
+    <b>★ {{ product.metafields.reviews.rating.value | default: '4.8' }}</b> · {{ product.metafields.reviews.rating_count | default: '237' }} reviews
+  </div>
+  
+  <div class="pr">
+    {%- if product != blank -%}
+      <strong>{{ product.price | money }}</strong>
+      {%- if product.compare_at_price > product.price -%}
+        <s>{{ product.compare_at_price | money }}</s>
+        {%- assign savings = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
+        <em>{{ savings | round }}% off</em>
+      {%- endif -%}
+    {%- else -%}
+      <strong>₹200</strong><s>₹299</s><em>33% off</em>
+    {%- endif -%}
+  </div>
+  
+  {%- if product != blank -%}
+    {%- form 'product', product -%}
+      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+      <button type="submit" class="btn btn-ghost btn-sm" {% unless product.available %}disabled{% endunless %}>
+        {% if product.available %}Add to cart{% else %}Sold out{% endif %}
+      </button>
+    {%- endform -%}
+  {%- else -%}
+    <button type="button" class="btn btn-ghost btn-sm">Add to cart</button>
+  {%- endif -%}
+</article>

@@ -1,5 +1,5 @@
 <!-- ================= BEST SELLING COMBOS ================= -->
-<section class="sec" id="combos" data-scene="3">
+<section class="sec" id="combos-{{ section.id }}" data-scene="3">
   <div class="wrap">
     <div class="panel-head rv">
       <span class="kicker">{{ section.settings.kicker }}</span>
@@ -19,36 +19,63 @@
               <span class="flag">{{ block.settings.flag_text }}</span>
             {%- endif -%}
             <div class="stack">
-              {%- if block.settings.product_1 != blank -%}
+              {%- assign p1 = block.settings.item_1 -%}
+              {%- assign p2 = block.settings.item_2 -%}
+              {%- assign p3 = block.settings.item_3 -%}
+              
+              {%- if p1 != blank -%}
+                <span class="it">
+                  <span class="pimg" role="img" aria-label="{{ p1.title | escape }}" style="background-image: url('{{ p1.featured_image | image_url: width: 200 }}'); background-size: contain; background-repeat: no-repeat; background-position: center bottom;"></span>
+                  <span>{{ block.settings.item_1_label }}</span>
+                </span>
+              {%- elsif block.settings.product_1_img != blank -%}
+                <!-- Fallback to CSS class if no product selected -->
                 <span class="it">
                   <span class="pimg {{ block.settings.product_1_img }}" role="img"></span>
-                  <span>{{ block.settings.product_1_label }}</span>
+                  <span>{{ block.settings.item_1_label }}</span>
                 </span>
               {%- endif -%}
-              {%- if block.settings.product_2 != blank -%}
+              
+              {%- if p2 != blank -%}
+                <span class="plus" aria-hidden="true">+</span>
+                <span class="it">
+                  <span class="pimg" role="img" aria-label="{{ p2.title | escape }}" style="background-image: url('{{ p2.featured_image | image_url: width: 200 }}'); background-size: contain; background-repeat: no-repeat; background-position: center bottom;"></span>
+                  <span>{{ block.settings.item_2_label }}</span>
+                </span>
+              {%- elsif block.settings.product_2_img != blank -%}
                 <span class="plus" aria-hidden="true">+</span>
                 <span class="it">
                   <span class="pimg {{ block.settings.product_2_img }}" role="img"></span>
-                  <span>{{ block.settings.product_2_label }}</span>
+                  <span>{{ block.settings.item_2_label }}</span>
                 </span>
               {%- endif -%}
-              {%- if block.settings.product_3 != blank -%}
+              
+              {%- if p3 != blank -%}
+                <span class="plus" aria-hidden="true">+</span>
+                <span class="it">
+                  <span class="pimg" role="img" aria-label="{{ p3.title | escape }}" style="background-image: url('{{ p3.featured_image | image_url: width: 200 }}'); background-size: contain; background-repeat: no-repeat; background-position: center bottom;"></span>
+                  <span>{{ block.settings.item_3_label }}</span>
+                </span>
+              {%- elsif block.settings.product_3_img != blank -%}
                 <span class="plus" aria-hidden="true">+</span>
                 <span class="it">
                   <span class="pimg {{ block.settings.product_3_img }}" role="img"></span>
-                  <span>{{ block.settings.product_3_label }}</span>
+                  <span>{{ block.settings.item_3_label }}</span>
                 </span>
               {%- endif -%}
             </div>
           </div>
           
           <div class="body">
-            <h3>{{ block.settings.title }}</h3>
+            {%- assign main_product = block.settings.product_main -%}
+            <h3>{% if main_product != blank %}{{ main_product.title }}{% else %}{{ block.settings.title }}{% endif %}</h3>
             <div class="cnt">{{ block.settings.product_count }} products</div>
-            <p class="inc">{{ block.settings.description }}</p>
+            <p class="inc">{% if main_product != blank and main_product.description != blank %}{{ main_product.description | strip_html | truncatewords: 25 }}{% else %}{{ block.settings.description }}{% endif %}</p>
             <div class="prow">
-              <strong>{{ block.settings.price }}</strong>
-              {%- if block.settings.compare_price != blank -%}
+              <strong>{% if main_product != blank %}{{ main_product.price | money }}{% else %}{{ block.settings.price }}{% endif %}</strong>
+              {%- if main_product != blank and main_product.compare_at_price > main_product.price -%}
+                <s>{{ main_product.compare_at_price | money }}</s>
+              {%- elsif block.settings.compare_price != blank and main_product == blank -%}
                 <s>{{ block.settings.compare_price }}</s>
               {%- endif -%}
               {%- if block.settings.save_pill != blank -%}
@@ -56,7 +83,8 @@
               {%- endif -%}
             </div>
             <div class="fine">Inclusive of all taxes &middot; COD available</div>
-            <a class="btn {% if block.settings.is_hero %}btn-primary{% else %}btn-ghost{% endif %}" href="{{ block.settings.link }}">Shop bundle <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></a>
+            {%- assign btn_link = main_product.url | default: block.settings.link -%}
+            <a class="btn {% if block.settings.is_hero %}btn-primary{% else %}btn-ghost{% endif %}" href="{{ btn_link | default: '#' }}">Shop bundle <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></a>
           </div>
         </article>
       {%- endfor -%}
@@ -102,26 +130,103 @@
           "default": false
         },
         {
+          "type": "product",
+          "id": "product_main",
+          "label": "Main Bundle Product (for price, title, description)"
+        },
+        {
           "type": "text",
           "id": "save_text",
-          "label": "Save Text"
+          "label": "Save Text",
+          "default": "You save ₹398"
         },
         {
           "type": "text",
           "id": "flag_text",
-          "label": "Flag Text (e.g. Most popular)"
+          "label": "Flag Text (e.g. Most popular)",
+          "default": "Most popular"
+        },
+        {
+          "type": "text",
+          "id": "product_count",
+          "label": "Product Count (e.g. 3)",
+          "default": "3"
+        },
+        {
+          "type": "text",
+          "id": "save_pill",
+          "label": "Save Pill Text",
+          "default": "Save ₹398"
+        },
+        {
+          "type": "header",
+          "content": "Product 1"
+        },
+        {
+          "type": "product",
+          "id": "item_1",
+          "label": "Item 1 Product"
+        },
+        {
+          "type": "text",
+          "id": "item_1_label",
+          "label": "Item 1 Label",
+          "default": "Cuts grease instantly"
+        },
+        {
+          "type": "text",
+          "id": "product_1_img",
+          "label": "Item 1 Image Class Fallback (e.g. p-kitchen)"
+        },
+        {
+          "type": "header",
+          "content": "Product 2"
+        },
+        {
+          "type": "product",
+          "id": "item_2",
+          "label": "Item 2 Product"
+        },
+        {
+          "type": "text",
+          "id": "item_2_label",
+          "label": "Item 2 Label",
+          "default": "Squeaky clean dishes"
+        },
+        {
+          "type": "text",
+          "id": "product_2_img",
+          "label": "Item 2 Image Class Fallback"
+        },
+        {
+          "type": "header",
+          "content": "Product 3"
+        },
+        {
+          "type": "product",
+          "id": "item_3",
+          "label": "Item 3 Product"
+        },
+        {
+          "type": "text",
+          "id": "item_3_label",
+          "label": "Item 3 Label",
+          "default": "Melts hard water stains"
+        },
+        {
+          "type": "text",
+          "id": "product_3_img",
+          "label": "Item 3 Image Class Fallback"
+        },
+        {
+          "type": "header",
+          "content": "Fallback Overrides (if main product not selected)"
         },
         {
           "type": "text",
           "id": "title",
           "label": "Combo Title",
           "default": "Kitchen essentials"
-        },
-        {
-          "type": "text",
-          "id": "product_count",
-          "label": "Product Count",
-          "default": "3"
         },
         {
           "type": "textarea",
@@ -141,57 +246,9 @@
           "default": "₹897"
         },
         {
-          "type": "text",
-          "id": "save_pill",
-          "label": "Save Pill Text",
-          "default": "Save ₹398"
-        },
-        {
           "type": "url",
           "id": "link",
           "label": "Bundle Link"
-        },
-        {
-          "type": "header",
-          "content": "Product 1"
-        },
-        {
-          "type": "text",
-          "id": "product_1_img",
-          "label": "Product 1 Image Class (e.g. p-kitchen)"
-        },
-        {
-          "type": "text",
-          "id": "product_1_label",
-          "label": "Product 1 Label"
-        },
-        {
-          "type": "header",
-          "content": "Product 2"
-        },
-        {
-          "type": "text",
-          "id": "product_2_img",
-          "label": "Product 2 Image Class"
-        },
-        {
-          "type": "text",
-          "id": "product_2_label",
-          "label": "Product 2 Label"
-        },
-        {
-          "type": "header",
-          "content": "Product 3"
-        },
-        {
-          "type": "text",
-          "id": "product_3_img",
-          "label": "Product 3 Image Class"
-        },
-        {
-          "type": "text",
-          "id": "product_3_label",
-          "label": "Product 3 Label"
         }
       ]
     }

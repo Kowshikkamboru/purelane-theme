@@ -16,14 +16,14 @@
   --r:26px;
   --r-sm:16px;
   --maxw:1180px;
-  --sec-y:34px;                 /* vertical rhythm between sections */
+  --sec-y:34px;
   --ease:cubic-bezier(.2,.7,.2,1);
 }
-*{box-sizing:border-box;margin:0;padding:0}
+:where(#hdr, footer[data-scene], .sec, .rail, .sticky, #water, #scenes, #hdr *, footer[data-scene] *, .sec *, .rail *, .sticky *, #water *, #scenes *) { box-sizing: border-box; margin: 0; padding: 0; }
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{
+body, body.gradient {
   font-family:'Inter',system-ui,-apple-system,sans-serif;
-  background:var(--ink);
+  background:linear-gradient(178deg,#fbfffb 0%,#eafaec 24%,#d6f1dc 54%,#bfe8ca 100%) fixed !important;
   color:var(--paper);
   line-height:1.62;
   -webkit-font-smoothing:antialiased;
@@ -52,10 +52,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .scenes{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:var(--brand)}
 .scene{position:absolute;inset:0;opacity:0;transition:opacity 1.5s ease}
 .scene.on{opacity:1}
-.s1{background:linear-gradient(178deg,#1ea38d 0%,#0b8578 22%,#017069 48%,#4b3a8f 74%,#01524e 100%)}
-.s2{background:linear-gradient(178deg,#12907f 0%,#04756e 26%,#4b3a8f 58%,#01514d 100%)}
-.s3{background:linear-gradient(178deg,#067c71 0%,#00625d 30%,#014e4a 64%,#023c39 100%)}
-.s4{background:linear-gradient(178deg,#036359 0%,#014b46 32%,#013431 66%,#012422 100%)}
+.s1{background:var(--surface)}
+.s2{background:var(--surface)}
+.s3{background:var(--surface)}
+.s4{background:var(--surface)}
 
 /* ---------- WATER CINEMATICS ---------- */
 .water{position:absolute;inset:-14% -10%;pointer-events:none;transition:opacity 1.2s ease}
@@ -93,21 +93,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .scenes[data-d="1"] .wl-s{opacity:.7}
 .scenes[data-d="2"] .wl-s,.scenes[data-d="3"] .wl-s,.scenes[data-d="4"] .wl-s{opacity:0}
 
-/* bubbles */
-.bub{position:absolute;inset:0;overflow:hidden}
-.bub span{position:absolute;bottom:-6%;left:var(--x);width:var(--s);height:var(--s);border-radius:50%;
-  border:1px solid rgba(230,255,242,.5);background:radial-gradient(circle at 34% 30%,rgba(255,255,255,.42),rgba(255,255,255,0) 62%);
-  animation:rise var(--dur) linear infinite;animation-delay:var(--dly);opacity:0}
-@keyframes rise{
-  0%{transform:translate3d(0,0,0);opacity:0}
-  12%{opacity:.7}
-  88%{opacity:.5}
-  100%{transform:translate3d(var(--drift),-116vh,0);opacity:0}
-}
-
-.vig{position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(126% 86% at 50% 28%,transparent 38%,rgba(1,50,46,.20) 78%,rgba(1,34,32,.44) 100%),
-             linear-gradient(180deg,rgba(1,38,36,.30) 0%,transparent 18%,transparent 66%,rgba(1,32,30,.40) 100%)}
+/* bubbles and vignette removed for performance and cleaner design */
+.bub { display: none; }
+.vig { display: none; }
 
 /* ---------- GLASS ---------- */
 .glass{
@@ -120,15 +108,13 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   position:relative;
   overflow:hidden;
 }
-.glass::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
-  background:linear-gradient(115deg,rgba(255,255,255,.16),transparent 30%,transparent 72%,rgba(240,160,60,.07))}
 .glass-2{
-  background:linear-gradient(158deg,rgba(236,230,247,.10),rgba(0,48,46,.22));
+  background:linear-gradient(158deg,rgba(255,255,255,.70),rgba(255,255,255,.50));
   backdrop-filter:blur(18px) saturate(135%);
   -webkit-backdrop-filter:blur(18px) saturate(135%);
-  border:1px solid rgba(236,230,247,.16);
+  border:1px solid rgba(255,255,255,.60);
   border-radius:var(--r);
-  box-shadow:0 18px 48px rgba(18,12,34,.36),inset 0 1px 0 rgba(255,255,255,.16);
+  box-shadow:0 12px 34px rgba(0,0,0,.04),inset 0 1px 0 rgba(255,255,255,.40);
   position:relative;overflow:hidden;
 }
 
@@ -136,10 +122,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .btn{display:inline-flex;align-items:center;gap:10px;height:46px;padding:0 22px;border-radius:999px;
   font-size:12.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;transition:.35s var(--ease);white-space:nowrap}
 .btn svg{width:15px;height:15px;flex:0 0 auto}
-.btn-primary{background:linear-gradient(135deg,var(--accent-2),#5d8d1c);color:#08211a;box-shadow:0 12px 30px rgba(201,118,29,.34),inset 0 1px 0 rgba(255,255,255,.34)}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 18px 40px rgba(201,118,29,.44),inset 0 1px 0 rgba(255,255,255,.4)}
-.btn-ghost{background:rgba(236,230,247,.10);border:1px solid rgba(236,230,247,.30);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:var(--surface)}
-.btn-ghost:hover{background:rgba(236,230,247,.18);transform:translateY(-2px)}
+.btn-primary{background:var(--accent);color:#fff;box-shadow:0 12px 30px rgba(240,160,60,.34),inset 0 1px 0 rgba(255,255,255,.24)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 18px 40px rgba(240,160,60,.44),inset 0 1px 0 rgba(255,255,255,.3)}
+.btn-ghost{background:rgba(255,255,255,.50);border:1px solid rgba(255,255,255,.80);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:var(--ink)}
+.btn-ghost:hover{background:rgba(255,255,255,.70);transform:translateY(-2px)}
 .btn-sm{height:38px;padding:0 18px;font-size:11px;letter-spacing:.14em}
 
 /* ---------- REVEAL ---------- */
@@ -221,12 +207,12 @@ header.up{top:10px}
 /* badge rail */
 .badges{position:absolute;right:18px;top:50%;transform:translateY(-50%);width:96px;z-index:4;
   display:flex;flex-direction:column;gap:2px;padding:12px 8px;border-radius:20px}
-.badge{text-align:center;padding:11px 4px}
-.badge+.badge{border-top:1px solid rgba(236,230,247,.14)}
-.badge .bi{width:38px;height:38px;margin:0 auto 8px;border-radius:50%;display:grid;place-items:center;
+.ph-badge{text-align:center;padding:11px 4px}
+.ph-badge+.ph-badge{border-top:1px solid rgba(236,230,247,.14)}
+.ph-badge .bi{width:38px;height:38px;margin:0 auto 8px;border-radius:50%;display:grid;place-items:center;
   background:rgba(236,230,247,.10);border:1px solid rgba(236,230,247,.22);color:var(--accent)}
-.badge .bi svg{width:19px;height:19px}
-.badge span{display:block;font-size:8.5px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--paper-2);line-height:1.34}
+.ph-badge .bi svg{width:19px;height:19px}
+.ph-badge span{display:block;font-size:8.5px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--paper-2);line-height:1.34}
 @media(max-width:900px){.badges{display:none}}
 
 /* mobile badge strip */
@@ -618,7 +604,7 @@ footer{position:relative;z-index:2;margin-top:var(--sec-y);padding:44px 0 30px;b
   .wl-a,.wl-b,.wl-c,.wl-s,.bub span{animation:none}
   html{scroll-behavior:auto}
 }
-<style>
+
 /* ============================================================
    VERSION 2 - BRAND COLOURS (light)
    Same structure and geometry as V1. Palette returned to the
@@ -626,7 +612,7 @@ footer{position:relative;z-index:2;margin-top:var(--sec-y);padding:44px 0 30px;b
    #c9761d leaf accent.
    ============================================================ */
 :root{
-  --ink:#f4f0fb;
+  --ink:#eafaec;
   --deep:#e2daf3;
   --brand:#4b3a8f;
   --brand-lt:#6b55b8;
@@ -641,10 +627,10 @@ footer{position:relative;z-index:2;margin-top:var(--sec-y);padding:44px 0 30px;b
   --g-shadow:0 22px 54px rgba(58,44,112,.13);
   --g-inset:inset 0 1px 0 rgba(255,255,255,.92);
 }
-body{background:var(--ink)}
+
 
 /* ---------- scenes: sunlit shallow water ---------- */
-.scenes{background:#eee7fb}
+.scenes{background:linear-gradient(178deg,#fbfffb 0%,#eafaec 24%,#d6f1dc 54%,#bfe8ca 100%)}
 .s1{background:linear-gradient(178deg,#fbfffb 0%,#eafaec 24%,#d6f1dc 54%,#bfe8ca 100%)}
 .s2{background:linear-gradient(178deg,#f6fdf7 0%,#e3f7e7 26%,#cbedd4 58%,#b2e2c2 100%)}
 .s3{background:linear-gradient(178deg,#f0fbf2 0%,#d9f2df 28%,#bde6c8 60%,#a2d9b6 100%)}
@@ -807,4 +793,4 @@ footer{background:linear-gradient(180deg,rgba(255,255,255,.62),rgba(214,241,221,
 .stickybuy{background:rgba(255,255,255,.88);border-top:1px solid rgba(75,58,143,.14)}
 .stickybuy .sp span s{color:rgba(36,26,61,.42)}
 
-</style>
+

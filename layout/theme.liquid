@@ -326,6 +326,10 @@
   </head>
 
   <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
+    {% if template.name == 'index' %}
+      {% render 'purelane-background' %}
+    {% endif %}
+
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
       {{ 'accessibility.skip_to_text' | t }}
     </a>
@@ -343,6 +347,16 @@
       tabindex="-1"
       data-template="{{ template.name }}"
     >
+      {%- if template.name == 'index' -%}
+        <!-- ================= SIDE RAIL ================= -->
+        <nav class="rail hide-s">
+          <a href="#hdr" class="on" aria-label="Intro"></a>
+          <a href="#ingredients" aria-label="Ingredients"></a>
+          <a href="#shop" aria-label="Shop"></a>
+          <a href="#categories" aria-label="Categories"></a>
+        </nav>
+      {%- endif -%}
+
       {{ content_for_layout }}
     </main>
 
@@ -405,5 +419,13 @@
     {%- if settings.cart_type == 'drawer' -%}
       <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
+
+    <script src="{{ 'purelane-scripts.js' | asset_url }}" defer="defer"></script>
+
+    <!-- ================= STICKY CTA ================= -->
+    <div class="sticky">
+      <span class="lbl"><b>Pick any 3, pay &#8377;499</b><span>Free shipping, always</span></span>
+      <a class="btn btn-primary btn-sm" href="#bundles">Build bundle</a>
+    </div>
   </body>
 </html>
