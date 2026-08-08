@@ -75,18 +75,200 @@
               <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>{{ block.settings.feature_3 }}</li>
             {%- endif -%}
           </ul>
-          {%- assign btn_link = main_product.url | default: block.settings.link -%}
-          <a class="btn {% if block.settings.is_best %}btn-primary{% else %}btn-ghost{% endif %}" href="{{ btn_link | default: '#' }}">
+          <button type="button" class="btn {% if block.settings.is_best %}btn-primary{% else %}btn-ghost{% endif %} js-build-box" data-qty="{{ block.settings.qty }}" data-discount="{{ block.settings.discount_code }}">
             {{ block.settings.button_text }}
             {%- if block.settings.is_best -%}
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5-6 6 6-6 6"/></svg>
             {%- endif -%}
-          </a>
+          </button>
         </article>
       {%- endfor -%}
     </div>
   </div>
 </section>
+
+<!-- ================= BUNDLE PICKER MODAL ================= -->
+<div class="bb-overlay" id="bb-overlay" aria-hidden="true">
+  <div class="bb-modal glass">
+    <div class="bb-header">
+      <div>
+        <h3 class="bb-title">Build your box</h3>
+        <p class="bb-subtitle">Pick <strong id="bb-target-count">3</strong> products from below</p>
+      </div>
+      <button type="button" class="bb-close" id="bb-close" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <div class="bb-progress">
+      <div class="bb-progress-bar" id="bb-progress-bar"></div>
+    </div>
+    <p class="bb-count" id="bb-count">0 of 3 selected</p>
+
+    <div class="bb-grid" id="bb-grid">
+      {%- assign picker_collection = collections[section.settings.picker_collection] | default: collections.all -%}
+      {%- for product in picker_collection.products limit: 20 -%}
+        {%- if product.available -%}
+        <div class="bb-item" data-variant-id="{{ product.selected_or_first_available_variant.id }}" data-product-id="{{ product.id }}">
+          <div class="bb-item-img">
+            {%- if product.featured_image != blank -%}
+              <img src="{{ product.featured_image | image_url: width: 240 }}" alt="{{ product.title | escape }}" loading="lazy">
+            {%- else -%}
+              <img src="{{ 'purelane-placeholder.png' | asset_url }}" alt="Product" loading="lazy">
+            {%- endif -%}
+            <div class="bb-check">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>
+            </div>
+          </div>
+          <h4 class="bb-item-title">{{ product.title }}</h4>
+          <span class="bb-item-price">{{ product.price | money }}</span>
+        </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    <div class="bb-footer">
+      <button type="button" class="btn btn-primary bb-add-btn" id="bb-add-btn" disabled>
+        Add <span id="bb-add-count">0</span> products to cart
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5-6 6 6-6 6"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  var overlay = document.getElementById('bb-overlay');
+  var closeBtn = document.getElementById('bb-close');
+  var grid = document.getElementById('bb-grid');
+  var progressBar = document.getElementById('bb-progress-bar');
+  var countEl = document.getElementById('bb-count');
+  var targetCountEl = document.getElementById('bb-target-count');
+  var addBtn = document.getElementById('bb-add-btn');
+  var addCountEl = document.getElementById('bb-add-count');
+  var targetQty = 3;
+  var selected = [];
+  var currentDiscountCode = '';
+
+  function openModal(qty, discountCode) {
+    targetQty = parseInt(qty, 10) || 3;
+    currentDiscountCode = discountCode || '';
+    selected = [];
+    targetCountEl.textContent = targetQty;
+    grid.querySelectorAll('.bb-item').forEach(function(item) {
+      item.classList.remove('selected');
+    });
+    updateUI();
+    overlay.classList.add('open');
+    overlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    overlay.classList.remove('open');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  function updateUI() {
+    var count = selected.length;
+    var pct = Math.min((count / targetQty) * 100, 100);
+    progressBar.style.width = pct + '%';
+    countEl.textContent = count + ' of ' + targetQty + ' selected';
+    addCountEl.textContent = count;
+    addBtn.disabled = count !== targetQty;
+    if (count === targetQty) {
+      progressBar.style.background = 'var(--accent, #006A60)';
+    } else {
+      progressBar.style.background = '';
+    }
+  }
+
+  /* Open modal from Build This Box buttons */
+  document.querySelectorAll('.js-build-box').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      openModal(btn.dataset.qty, btn.dataset.discount);
+    });
+  });
+
+  closeBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) closeModal();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal();
+  });
+
+  /* Toggle product selection */
+  grid.addEventListener('click', function(e) {
+    var item = e.target.closest('.bb-item');
+    if (!item) return;
+    var vid = item.dataset.variantId;
+    var idx = selected.indexOf(vid);
+    if (idx > -1) {
+      selected.splice(idx, 1);
+      item.classList.remove('selected');
+    } else {
+      if (selected.length >= targetQty) return;
+      selected.push(vid);
+      item.classList.add('selected');
+    }
+    updateUI();
+  });
+
+  /* Add to cart */
+  addBtn.addEventListener('click', function() {
+    if (selected.length !== targetQty) return;
+    addBtn.disabled = true;
+    addBtn.innerHTML = '<span class="loading-spinner" style="width:18px;height:18px;border:2px solid currentColor;border-top-color:transparent;border-radius:50%;display:inline-block;animation:spin .5s linear infinite;"></span> Adding\u2026';
+    var items = selected.map(function(id) { return { id: parseInt(id, 10), quantity: 1 }; });
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ items: items })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function() {
+      addBtn.innerHTML = '\u2713 Added to cart!';
+      setTimeout(function() {
+        closeModal();
+        addBtn.innerHTML = 'Add <span id="bb-add-count">0</span> products to cart <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5-6 6 6-6 6"/></svg>';
+        addCountEl = document.getElementById('bb-add-count');
+        
+        var applyDiscount = currentDiscountCode 
+          ? fetch('/discount/' + encodeURIComponent(currentDiscountCode)).catch(function(){}) 
+          : Promise.resolve();
+
+        applyDiscount.finally(function() {
+          var drawer = document.querySelector('cart-drawer');
+          if (drawer && typeof drawer.open === 'function') {
+            fetch('/cart.js').then(function(r){return r.json()}).then(function(cartData){
+              var bubble = document.getElementById('cart-icon-bubble');
+              if (bubble) {
+                var dot = bubble.querySelector('.dot');
+                if (dot) { dot.textContent = cartData.item_count; }
+                else {
+                  var s = document.createElement('span');
+                  s.className = 'dot';
+                  s.textContent = cartData.item_count;
+                  bubble.appendChild(s);
+                }
+              }
+              drawer.open();
+            });
+          } else {
+            window.location.href = '/cart';
+          }
+        });
+      }, 800);
+    })
+    .catch(function() {
+      addBtn.disabled = false;
+      addBtn.innerHTML = 'Error \u2013 try again';
+    });
+  });
+})();
+</script>
 
 {% schema %}
 {
@@ -109,6 +291,12 @@
       "id": "text",
       "label": "Text",
       "default": "Mix and match across kitchen, laundry, home and skin. One flat price, no code needed, free shipping either way."
+    },
+    {
+      "type": "collection",
+      "id": "picker_collection",
+      "label": "Product Picker Collection",
+      "info": "Products shown in the Build This Box modal. Defaults to all products."
     }
   ],
   "blocks": [
@@ -149,7 +337,7 @@
           "type": "text",
           "id": "per_product_text",
           "label": "Per Product Text",
-          "default": "Flat ₹174 per product"
+          "default": "Flat \u20b9174 per product"
         },
         {
           "type": "text",
@@ -236,18 +424,24 @@
           "type": "text",
           "id": "price",
           "label": "Price",
-          "default": "₹349"
+          "default": "\u20b9349"
         },
         {
           "type": "text",
           "id": "compare_price",
           "label": "Compare Price",
-          "default": "₹598"
+          "default": "\u20b9598"
         },
         {
           "type": "url",
           "id": "link",
           "label": "Link Fallback"
+        },
+        {
+          "type": "text",
+          "id": "discount_code",
+          "label": "Discount Code",
+          "info": "Enter a Shopify discount code to auto-apply when this bundle is added to cart. Create this code in Shopify Admin \u2192 Discounts."
         }
       ]
     }

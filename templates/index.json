@@ -43,7 +43,8 @@
             "product_3_label": "Melts hard water stains",
             "item_1": "foaming-kitchen-cleaner",
             "item_2": "purelane-all-natural-plant-based-organic-dishwash-liquid-gel-concentrate-with-citrus-pe",
-            "item_3": "tap-cleaner-limescale-remover"
+            "item_3": "tap-cleaner-limescale-remover",
+            "discount_code": "COMBO3"
           }
         },
         "combo_2": {
@@ -66,7 +67,8 @@
             "product_3_label": "Gentle hydration for hands",
             "item_1": "foaming-kitchen-cleaner",
             "item_2": "natural-herbal-floor-cleaner",
-            "item_3": "gentle-hydrating-liquid-handwash"
+            "item_3": "gentle-hydrating-liquid-handwash",
+            "discount_code": "COMBO5"
           }
         }
       },
@@ -92,7 +94,8 @@
             "feature_2": "Free shipping across India",
             "product_1_img": "p-combo2",
             "item_1": "foaming-kitchen-cleaner",
-            "item_2": "natural-herbal-floor-cleaner"
+            "item_2": "natural-herbal-floor-cleaner",
+            "discount_code": "BUNDLE2"
           }
         },
         "bundle_2": {
@@ -113,14 +116,34 @@
             "product_3_img": "p-dish",
             "item_1": "foaming-kitchen-cleaner",
             "item_2": "tap-cleaner-limescale-remover",
-            "item_3": "purelane-all-natural-plant-based-organic-dishwash-liquid-gel-concentrate-with-citrus-pe"
+            "item_3": "purelane-all-natural-plant-based-organic-dishwash-liquid-gel-concentrate-with-citrus-pe",
+            "discount_code": "BUNDLE3"
+          }
+        },
+        "bundle_3": {
+          "type": "bundle",
+          "settings": {
+            "is_best": false,
+            "tag": "Best value",
+            "is_five": true,
+            "qty": "5",
+            "price": "\u20b9799",
+            "compare_price": "\u20b91,495",
+            "per_product_text": "Flat \u20b9160 per product",
+            "feature_1": "Pick any five products",
+            "feature_2": "Covers every room in your home",
+            "feature_3": "Free shipping across India",
+            "button_text": "Build this box",
+            "discount_code": "BUNDLE5"
           }
         }
       },
       "block_order": [
         "bundle_1",
-        "bundle_2"
-      ]
+        "bundle_2",
+        "bundle_3"
+      ],
+      "settings": {}
     },
     "reviews_rail": {
       "type": "purelane-reviews-rail",
